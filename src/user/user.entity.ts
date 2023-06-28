@@ -10,6 +10,9 @@ export class UserEntity {
   email: string;
 
   @Column()
+  hash: string;
+
+  @Column()
   firstName: string;
 
   @Column()
