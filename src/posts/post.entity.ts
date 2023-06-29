@@ -1,4 +1,5 @@
-import { Column, CreateDateColumn, Entity, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
+import { UserEntity } from "src/user/user.entity";
+import { Column, CreateDateColumn, Entity, ManyToMany, ManyToOne, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
 
 @Entity('posts')
 export class PostEntity {
@@ -20,5 +21,11 @@ export class PostEntity {
 
   @Column({ default: false })
   movedToTrash: boolean;
+
+  @ManyToOne(() => UserEntity, (user) => user.posts)
+  user: UserEntity;
+
+  @Column()
+  author: string;
 
 };
