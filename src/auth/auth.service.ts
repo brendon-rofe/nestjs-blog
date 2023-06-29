@@ -17,6 +17,7 @@ export class AuthService {
     newUser.firstName = dto.firstName;
     newUser.lastName = dto.lastName;
     await this.userService.create(newUser);
+    return newUser;
   };
 
 };
