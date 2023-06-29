@@ -11,15 +11,15 @@ export class PostsService {
   constructor(
     @InjectRepository(PostEntity) private postsRepo: Repository<PostEntity>,
     private userService: UserService,
-  ) {}
+  ) {};
 
   async create(user: UserEntity, dto: CreatePostDto) {
     const foundUser = await this.userService.getByEmail(user.email);
     const newPost = new PostEntity();
     newPost.title = dto.title;
     newPost.content = dto.content;
+    newPost.user = foundUser;
     newPost.author = `${foundUser.firstName} ${foundUser.lastName}`;
-    await this.postsRepo.save(newPost);
-    return newPost;
-  }
+    return await this.postsRepo.save(newPost);
+  };
 }
