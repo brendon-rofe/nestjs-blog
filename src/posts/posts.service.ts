@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { PostEntity } from './post.entity';
 import { Repository } from 'typeorm';
 import { InjectRepository } from '@nestjs/typeorm';
@@ -22,4 +22,13 @@ export class PostsService {
     newPost.author = `${foundUser.firstName} ${foundUser.lastName}`;
     return await this.postsRepo.save(newPost);
   };
+
+  async getById(postId: number) {
+    const post = await this.postsRepo.findOne({ where: { id: postId }, relations: ['user'] });
+    if(!post) {
+      throw new HttpException(`Post with ID: ${postId} not found`, HttpStatus.NOT_FOUND);
+    };
+    return post;
+  };
+
 }
