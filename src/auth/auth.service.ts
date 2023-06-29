@@ -1,4 +1,4 @@
-import { Injectable, UnauthorizedException } from '@nestjs/common';
+import { HttpException, HttpStatus, Injectable, UnauthorizedException } from '@nestjs/common';
 import { UserService } from 'src/user/user.service';
 import { RegisterUserDto } from './dtos';
 import * as bcrypt from 'bcrypt';
@@ -24,16 +24,16 @@ export class AuthService {
 
   async login(dto: LoginDto) {
     const user = await this.userService.getByEmail(dto.email);
-    const passwordsMatch = await bcrypt.compare(dto.password, user.hash);
     if(!user) {
-      throw new UnauthorizedException();
+      throw new HttpException('Incorrect credentials', HttpStatus.BAD_REQUEST);
     };
+    const passwordsMatch = await bcrypt.compare(dto.password, user.hash);
     if(!passwordsMatch) {
-      throw new UnauthorizedException();
+      throw new HttpException('Incorrect credentials', HttpStatus.BAD_REQUEST);
     };
     const payload = { sub: user.id, email: dto.email };
     return {
-      access_token: await this.jwtService.sign(payload)
+      access_token: this.jwtService.sign(payload)
     };
   };
 
