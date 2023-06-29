@@ -19,10 +19,4 @@ export class AuthController {
     return await this.authService.login(dto);
   };
 
-  @UseGuards(AuthGuard('jwt'))
-  @Get('protected')
-  async protected(@Request() req) {
-    return { user: req.user };
-  };
-
 };
