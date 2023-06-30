@@ -31,4 +31,12 @@ export class PostsService {
     return post;
   };
 
+  async delete(postId: number) {
+    const post = await this.postsRepo.findOne({ where: { id: postId }, relations: ['user'] });
+    if(!post) {
+      throw new HttpException(`Post with ID: ${postId} not found`, HttpStatus.NOT_FOUND);
+    };
+    await this.postsRepo.delete({ id: postId });
+  };
+
 }

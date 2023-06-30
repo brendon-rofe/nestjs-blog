@@ -1,4 +1,4 @@
-import { Body, Controller, Get, Param, Post, Request, UseGuards } from '@nestjs/common';
+import { Body, Controller, Delete, Get, Param, Post, Request, UseGuards } from '@nestjs/common';
 import { PostsService } from './posts.service';
 import { CreatePostDto } from './dtos';
 import { AuthGuard } from '@nestjs/passport';
@@ -17,6 +17,11 @@ export class PostsController {
   @Get(':id')
   async getById(@Param('id') postId: string) {
     return await this.postsService.getById(parseInt(postId));
+  };
+
+  @Delete(':id')
+  async delete(@Param('id') postId: string) {
+    return await this.postsService.delete(parseInt(postId));
   };
 
 };
