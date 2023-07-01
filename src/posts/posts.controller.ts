@@ -1,7 +1,8 @@
-import { Body, Controller, Delete, Get, Param, Post, Request, UseGuards } from '@nestjs/common';
+import { Body, Controller, Delete, Get, Param, Patch, Post, Request, UseGuards } from '@nestjs/common';
 import { PostsService } from './posts.service';
 import { CreatePostDto } from './dtos';
 import { AuthGuard } from '@nestjs/passport';
+import { UpdatePostDto } from './dtos/update-post.dto';
 
 @Controller('posts')
 export class PostsController {
@@ -17,6 +18,11 @@ export class PostsController {
   @Get(':id')
   async getById(@Param('id') postId: string) {
     return await this.postsService.getById(parseInt(postId));
+  };
+
+  @Patch(':id')
+  async update(@Param('id') postId: string, @Body() dto: UpdatePostDto) {
+    return await this.postsService.update(parseInt(postId), dto);
   };
 
   @Delete(':id')

@@ -5,6 +5,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { CreatePostDto } from './dtos';
 import { UserEntity } from 'src/user/user.entity';
 import { UserService } from 'src/user/user.service';
+import { UpdatePostDto } from './dtos/update-post.dto';
 
 @Injectable()
 export class PostsService {
@@ -29,6 +30,13 @@ export class PostsService {
       throw new HttpException(`Post with ID: ${postId} not found`, HttpStatus.NOT_FOUND);
     };
     return post;
+  };
+
+  async update(postId: number, dto: UpdatePostDto) {
+    const post = await this.getById(postId);
+    post.title = dto.title;
+    post.content = dto.content;
+    return await this.postsRepo.save(post);
   };
 
   async delete(postId: number) {
