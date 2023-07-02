@@ -1,8 +1,7 @@
 import { Body, Controller, Delete, Get, Param, Patch, Post, Request, UseGuards } from '@nestjs/common';
 import { PostsService } from './posts.service';
-import { CreatePostDto } from './dtos';
+import { CreatePostDto, UpdatePostDto } from './dtos';
 import { AuthGuard } from '@nestjs/passport';
-import { UpdatePostDto } from './dtos/update-post.dto';
 
 @Controller('posts')
 export class PostsController {
