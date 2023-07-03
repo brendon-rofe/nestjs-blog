@@ -1,6 +1,7 @@
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { config } from 'dotenv';
+import { CommentEntity } from 'src/comments/comment.entity';
 import { PostEntity } from 'src/posts/post.entity';
 import { UserEntity } from 'src/user/user.entity';
 config();
@@ -14,7 +15,7 @@ config();
       username: process.env.DB_USERNAME,
       password: process.env.DB_PASSWORD,
       database: process.env.DB_DATABASE,
-      entities: [UserEntity, PostEntity],
+      entities: [UserEntity, PostEntity, CommentEntity],
       synchronize: true,
     }),
   ],
