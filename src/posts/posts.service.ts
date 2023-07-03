@@ -31,6 +31,15 @@ export class PostsService {
     return post;
   };
 
+  async getAllUserPosts(email: string) {
+    const foundUser = await this.userService.getByEmail(email);
+    console.log(foundUser);
+    return await this.postsRepo.find({ 
+      where: { author: `${foundUser.firstName} ${foundUser.lastName}` }, 
+      relations: ['comments']
+    });
+  };
+
   async update(postId: number, dto: UpdatePostDto) {
     const post = await this.getById(postId);
     post.title = dto.title;

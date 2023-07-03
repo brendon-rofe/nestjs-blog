@@ -19,6 +19,11 @@ export class PostsController {
     return await this.postsService.getById(parseInt(postId));
   };
 
+  @Get('user/:email')
+  async getAllUserPosts(@Param('email') email: string) {
+    return await this.postsService.getAllUserPosts(email);
+  };
+
   @Patch(':id')
   async update(@Param('id') postId: string, @Body() dto: UpdatePostDto) {
     return await this.postsService.update(parseInt(postId), dto);
