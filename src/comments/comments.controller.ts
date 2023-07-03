@@ -7,9 +7,9 @@ export class CommentsController {
 
   constructor(private commentsService: CommentsService) {};
 
-  @Post()
-  async create(@Body() dto: CreateCommentDto ) {
-    return await this.commentsService.create(dto);
+  @Post(':postId')
+  async create(@Param('postId') postId: string, @Body() dto: CreateCommentDto ) {
+    return await this.commentsService.create(parseInt(postId), dto);
   };
 
   @Get(':id')

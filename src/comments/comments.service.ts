@@ -3,15 +3,22 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { CommentEntity } from './comment.entity';
 import { Repository } from 'typeorm';
 import { CreateCommentDto, UpdateCommentDto } from './dtos';
+import { PostEntity } from 'src/posts/post.entity';
+import { PostsService } from 'src/posts/posts.service';
 
 @Injectable()
 export class CommentsService {
 
-  constructor(@InjectRepository(CommentEntity) private commentRepo: Repository<CommentEntity>) {};
+  constructor(
+    @InjectRepository(CommentEntity) private commentRepo: Repository<CommentEntity>, 
+    private postsService: PostsService
+  ) {};
 
-  async create(dto: CreateCommentDto) {
+  async create(postId: number, dto: CreateCommentDto) {
+    const post: PostEntity = await this.postsService.getById(postId);
     const newComment = new CommentEntity();
     newComment.content = dto.content;
+    newComment.post = post;
     return await this.commentRepo.save(newComment);
   };
 
