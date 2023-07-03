@@ -22,7 +22,9 @@ export class CommentsController {
     return await this.commentsService.update(parseInt(commentId), dto);
   };
 
-  @Delete()
-  async delete() {};
+  @Delete(':id')
+  async delete(@Param('id') commentId: string) {
+    return await this.commentsService.delete(parseInt(commentId));
+  };
 
 };

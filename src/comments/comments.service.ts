@@ -18,7 +18,7 @@ export class CommentsService {
   async getById(commentId: number) {
     const comment = await this.commentRepo.findOneBy({ id: commentId });
     if(!comment) {
-      throw new HttpException(`Comment with ID:${commentId} not found`, HttpStatus. NOT_FOUND);
+      throw new HttpException(`Comment with ID: ${commentId} not found`, HttpStatus. NOT_FOUND);
     };
     return comment;
   };
@@ -30,6 +30,10 @@ export class CommentsService {
     return comment;
   };
 
-  async delete() {};
+  async delete(commentId: number) {
+    await this.getById(commentId);
+    await this.commentRepo.delete({ id: commentId });
+    return { message: `Comment with ID: ${commentId} deleted` };
+  };
 
 };
