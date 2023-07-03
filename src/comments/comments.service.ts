@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { CommentEntity } from './comment.entity';
 import { Repository } from 'typeorm';
@@ -15,7 +15,13 @@ export class CommentsService {
     return await this.commentRepo.save(newComment);
   };
 
-  async getById() {};
+  async getById(commentId: number) {
+    const comment = await this.commentRepo.findOneBy({ id: commentId });
+    if(!comment) {
+      throw new HttpException(`Comment with ID:${commentId} not found`, HttpStatus. NOT_FOUND);
+    };
+    return comment;
+  };
 
   async update() {};
 

@@ -1,4 +1,4 @@
-import { Body, Controller, Delete, Get, Patch, Post } from '@nestjs/common';
+import { Body, Controller, Delete, Get, Param, Patch, Post } from '@nestjs/common';
 import { CommentsService } from './comments.service';
 import { CreateCommentDto } from './dtos';
 
@@ -12,8 +12,10 @@ export class CommentsController {
     return await this.commentsService.create(dto);
   };
 
-  @Get()
-  async getById() {};
+  @Get(':id')
+  async getById(@Param('id') postId: string) {
+    return await this.commentsService.getById(parseInt(postId));
+  };
 
   @Patch()
   async update() {};
