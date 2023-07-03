@@ -24,7 +24,7 @@ export class PostsService {
   };
 
   async getById(postId: number) {
-    const post = await this.postsRepo.findOne({ where: { id: postId }, relations: ['user'] });
+    const post = await this.postsRepo.findOne({ where: { id: postId }, relations: ['user', 'comments'] });
     if(!post) {
       throw new HttpException(`Post with ID: ${postId} not found`, HttpStatus.NOT_FOUND);
     };
@@ -46,4 +46,4 @@ export class PostsService {
     await this.postsRepo.delete({ id: postId });
   };
 
-}
+};
