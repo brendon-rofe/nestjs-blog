@@ -2,7 +2,7 @@ import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { CommentEntity } from './comment.entity';
 import { Repository } from 'typeorm';
-import { CreateCommentDto } from './dtos';
+import { CreateCommentDto, UpdateCommentDto } from './dtos';
 
 @Injectable()
 export class CommentsService {
@@ -23,7 +23,12 @@ export class CommentsService {
     return comment;
   };
 
-  async update() {};
+  async update(commentId: number, dto: UpdateCommentDto) {
+    const comment = await this.commentRepo.findOneBy({ id: commentId });
+    comment.content = dto.content;
+    await this.commentRepo.save(comment);
+    return comment;
+  };
 
   async delete() {};
 

@@ -1,6 +1,6 @@
 import { Body, Controller, Delete, Get, Param, Patch, Post } from '@nestjs/common';
 import { CommentsService } from './comments.service';
-import { CreateCommentDto } from './dtos';
+import { CreateCommentDto, UpdateCommentDto } from './dtos';
 
 @Controller('comments')
 export class CommentsController {
@@ -13,12 +13,14 @@ export class CommentsController {
   };
 
   @Get(':id')
-  async getById(@Param('id') postId: string) {
-    return await this.commentsService.getById(parseInt(postId));
+  async getById(@Param('id') commentId: string) {
+    return await this.commentsService.getById(parseInt(commentId));
   };
 
-  @Patch()
-  async update() {};
+  @Patch(':id')
+  async update(@Param('id') commentId: string, @Body() dto: UpdateCommentDto ) {
+    return await this.commentsService.update(parseInt(commentId), dto);
+  };
 
   @Delete()
   async delete() {};
