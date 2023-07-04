@@ -1,4 +1,4 @@
-import { Body, Controller, Delete, Get, Param, Patch, Post } from '@nestjs/common';
+import { Body, Controller, Delete, Get, Param, Patch, Post, Request } from '@nestjs/common';
 import { CommentsService } from './comments.service';
 import { CreateCommentDto, UpdateCommentDto } from './dtos';
 
@@ -8,8 +8,12 @@ export class CommentsController {
   constructor(private commentsService: CommentsService) {};
 
   @Post(':postId')
-  async create(@Param('postId') postId: string, @Body() dto: CreateCommentDto ) {
-    return await this.commentsService.create(parseInt(postId), dto);
+  async create(
+    @Request() req,
+    @Param('postId') postId: string, 
+    @Body() dto: CreateCommentDto 
+    ) {
+    return await this.commentsService.create(req.user, parseInt(postId), dto);
   };
 
   @Get(':id')

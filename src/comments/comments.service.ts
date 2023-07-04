@@ -5,20 +5,25 @@ import { Repository } from 'typeorm';
 import { CreateCommentDto, UpdateCommentDto } from './dtos';
 import { PostEntity } from 'src/posts/post.entity';
 import { PostsService } from 'src/posts/posts.service';
+import { UserService } from 'src/user/user.service';
+import { UserEntity } from 'src/user/user.entity';
 
 @Injectable()
 export class CommentsService {
 
   constructor(
     @InjectRepository(CommentEntity) private commentRepo: Repository<CommentEntity>, 
-    private postsService: PostsService
+    private postsService: PostsService,
+    private userService: UserService
   ) {};
 
-  async create(postId: number, dto: CreateCommentDto) {
+  async create(user: UserEntity, postId: number, dto: CreateCommentDto) {
     const post: PostEntity = await this.postsService.getById(postId);
+    const foundUser = await this.userService.getByEmail(user.email);
     const newComment = new CommentEntity();
     newComment.content = dto.content;
     newComment.post = post;
+    newComment.user = foundUser;
     return await this.commentRepo.save(newComment);
   };
 
